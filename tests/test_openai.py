@@ -168,11 +168,32 @@ def test_openai_programmed_function_call(client):
         model="mock", messages=[{"role": "user", "content": "Where's my order?"}]
     )
     assert isinstance(completion, ChatCompletion)
-    assert isinstance(completion.choices[0].message, ChatCompletionMessage)
-    assert isinstance(
-        completion.choices[0].message.tool_calls[0],  # type: ignore
-        ChatCompletionMessageToolCall,
+    assert isinstance((msg := completion.choices[0].message), ChatCompletionMessage)
+
+    assert msg.tool_calls is not None
+    assert isinstance((call := msg.tool_calls[0]), ChatCompletionMessageToolCall)
+
+    f = call.function
+    assert f.name == "get_delivery_date"
+    assert f.arguments == {"order_id": "1337", "order_loc": ["New York", "Mexico City"]}
+
+
+def test_openai_header_function_call(client):
+    completion = client.chat.completions.create(
+        model="mock",
+        messages=[{"role": "user", "content": "Please call mom"}],
+        extra_headers={
+            "mock-response": 'f:{"name": "call_mom", "arguments": {"number": 8888}}'
+        },
     )
+    assert isinstance(completion, ChatCompletion)
+    assert isinstance((msg := completion.choices[0].message), ChatCompletionMessage)
+
+    assert msg.tool_calls is not None
+    assert isinstance((call := msg.tool_calls[0]), ChatCompletionMessageToolCall)
+
+    assert call.function.name == "call_mom"
+    assert call.function.arguments == {"number": 8888}
 
 
 async def test_async_openai_function_call(aclient):

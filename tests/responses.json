@@ -1,49 +1,49 @@
 {
-  "responses":[
-  {
-    "type": "text",
-    "input": "How are ya?",
-    "output": "I'm fine, thank u 😊. How about you?"
-  },
-  {
-    "type": "function",
-    "input": "Where's my order?",
-    "output": {
-      "name": "get_delivery_date",
-      "arguments": {
-        "order_id": "1337",
-        "order_loc": [
-          "New York",
-          "Mexico City"
-        ]
-      }
-    }
-  },
-  {
-    "type": "text",
-    "input": "{'order_id': '1337', 'delivery_date': '25/10/2024'}",
-    "output": "Your order will arrive the 25th of October."
-  },
+  "responses": [
     {
-    "type": "text",
-    "input": {
-      "offset": -2,
-      "content": "Where's my json you know?"
+      "type": "text",
+      "input": "How are ya?",
+      "output": "I'm fine, thank u 😊. How about you?"
     },
+    {
+      "type": "function",
+      "input": "Where's my order?",
+      "output": {
+        "name": "get_delivery_date",
+        "arguments": {
+          "order_id": "1337",
+          "order_loc": [
+            "New York",
+            "Mexico City"
+          ]
+        }
+      }
+    },
+    {
+      "type": "text",
+      "input": "{'order_id': '1337', 'delivery_date': '25/10/2024'}",
+      "output": "Your order will arrive the 25th of October."
+    },
+    {
+      "type": "text",
+      "input": {
+        "offset": -2,
+        "content": "Where's my json you know?"
+      },
       "output": "{'fake': 'json'}"
     },
     {
-    "type": "text",
-    "input": {
+      "type": "text",
+      "input": {
         "offset": -1,
         "role": "user",
         "system_prompt_name": "my_prompt",
         "content": "Where's my orda?"
-    },
-     "output": "ORDER MATCHED BASED ON SYSTEM PROMPT"
+      },
+      "output": "ORDER MATCHED BASED ON SYSTEM PROMPT"
     }
   ],
-"system_prompts": {
+  "system_prompts": {
     "my_prompt": "test_system_prompt"
-}
+  }
 }

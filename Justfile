@@ -42,3 +42,7 @@ docker-run:
 # Publish the container to Dockerhub
 docker-publish VERSION="latest":
     @docker push ajaczero/mock-ai:{{ VERSION }}
+
+# Build the test docker image
+docker-test-build:
+  docker build -t ajaczero/mock-ai:test -f tests/test.Dockerfile .

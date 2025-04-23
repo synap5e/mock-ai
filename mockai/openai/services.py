@@ -6,8 +6,6 @@ from time import time
 from typing import cast
 from uuid import uuid4
 
-from pydantic import ValidationError
-
 from mockai.dependencies import ResponseFile
 from mockai.models.json_file import PreDeterminedResponse
 
@@ -168,22 +166,20 @@ async def generate_openai_completion_response(
             )
         else:
             _log.info("Using mock response from header")
-        try:
-            is_function = mock_response[:2] == "f:"
 
-            r_type = "function" if is_function else "text"
+        is_function = mock_response[:2] == "f:"
 
-            if is_function:
-                output = json.loads(mock_response[2:])
-            else:
-                output = mock_response
+        r_type = "function" if is_function else "text"
 
-            header_mock_response = PreDeterminedResponse(
-                type=r_type, input="None", output=output
-            )
-            content, tool_calls = response_struct_to_openai_format(header_mock_response)
-        except (ValidationError, json.JSONDecodeError) as e:
-            content = str(e)
+        if is_function:
+            output = json.loads(mock_response[2:])
+        else:
+            output = mock_response
+
+        header_mock_response = PreDeterminedResponse(
+            type=r_type, input="None", output=output
+        )
+        content, tool_calls = response_struct_to_openai_format(header_mock_response)
 
     content = cast(str, content)
 
