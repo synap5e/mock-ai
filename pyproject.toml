@@ -1,16 +1,15 @@
 [project]
-name = "ai-mock"
-version = "0.3.1"
+name = "mockai"
+version = "0.1.0"
 description = "Mock clients for your favorite LLM APIs"
 readme = "README.md"
-authors = [{ name = "Anibal Angulo", email = "ajcardoza2000@gmail.com" }]
+authors = [
+    { name = "ajac-zero", email = "ajcardoza2000@gmail.com" }
+]
 license = { text = "MIT" }
-requires-python = "<4.0,>=3.10"
+requires-python = ">=3.10, <4.0"
 dependencies = [
-  "aiofiles<25.0.0,>=24.1.0",
-  "fastapi[standard]<1.0.0,>=0.115.6",
-  "starlette-compress<2.0.0,>=1.4.0",
-  "orjson<4.0.0,>=3.10.14",
+    "rich>=14.0.0",
 ]
 
 [project.optional-dependencies]
@@ -20,7 +19,7 @@ mistralai = ["mistralai<2.0.0,>=1.2.6"]
 cohere = ["cohere<6.0.0,>=5.13.6"]
 
 [project.scripts]
-ai-mock = "mockai.cli:cli"
+mockai = "mockai:serve"
 
 [dependency-groups]
 dev = [
@@ -42,37 +41,11 @@ dev = [
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 
-[tool.ruff.lint]
-select = [
-  'F',      # Pyflakes
-  'E',      # pycodestyle (Error)
-  'I',      # isort
-  'UP',     # pyupgrade
-  'YTT',    # flake8-2020
-  'B',      # flake8-bugbear
-  'T10',    # flake8-debugger
-  'T20',    # flake8-print
-  'C4',     # flake8-comprehensions
-  'PYI006', # flake8-pyi
-  'PYI062', # flake8-pyi
-  'PYI063', # flake8-pyi
-  'PYI066', # flake8-pyi
-  'PERF',   # Perflint
-]
-ignore = ['D105', 'D107', 'D205', 'D415', 'E501', 'B011', 'B028', 'B904']
-flake8-quotes = { inline-quotes = 'single', multiline-quotes = 'double' }
-mccabe = { max-complexity = 14 }
-pydocstyle = { convention = 'google' }
-
-[tool.ruff.lint.per-file-ignores]
-'tests/*' = [
-  'S101', # asserts
-]
-"examples/openai_tutorial.ipynb" = ["T201"]
-
-[tool.pdm.build]
-includes = ["mockai"]
+[tool.maturin]
+module-name = "mockai._core"
+python-packages = ["mockai"]
+python-source = "py"
 
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"

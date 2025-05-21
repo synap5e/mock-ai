@@ -1,0 +1,22 @@
+[package]
+name = "mockai"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1.0.98"
+axum = { version = "0.8.3", features = ["json"] }
+axum-macros = "0.5.0"
+clap = { version = "4.5.37", features = ["derive"] }
+pyo3 = { version = "0.24.0", features = ["extension-module", "abi3-py312", "anyhow"] }
+rand = "0.9.1"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+tokio = { version = "1.44.2", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
+uuid = { version = "1.16.0", features = ["serde", "v4"] }
